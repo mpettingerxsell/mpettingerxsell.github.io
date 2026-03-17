@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sprout — Homepage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f0e8; --white: #fffdf8; --ink: #1a1814; --mid: #6b6760;
+      --border: #ddd8cc; --green: #2d5a3d; --green-light: #e8f0eb;
+      --coral: #e05c3a; --yellow: #f0c843;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Instrument Sans', sans-serif; line-height: 1.6; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem; background: var(--bg); border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--green); text-decoration: none; }
+    .logo span { color: var(--ink); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: .875rem; font-weight: 500; color: var(--mid); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { background: var(--green); color: #fff; padding: .6rem 1.25rem; border-radius: 999px; font-size: .875rem; font-weight: 600; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: #1e3d2a; }
+
+    .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 57px); border-bottom: 1px solid var(--border); }
+    .hero-left { padding: 5rem 3rem 5rem 2.5rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); }
+    .badge { display: inline-flex; align-items: center; gap: .4rem; background: var(--yellow); color: var(--ink); font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: .35rem .85rem; border-radius: 999px; margin-bottom: 2rem; width: fit-content; animation: popIn .5s .1s both; }
+    .hero-title { font-family: 'Fraunces', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 1.5rem; animation: fadeUp .6s .2s both; }
+    .hero-title em { font-style: italic; font-weight: 300; color: var(--green); }
+    .hero-body { font-size: 1.05rem; color: var(--mid); max-width: 420px; line-height: 1.75; margin-bottom: 2.5rem; animation: fadeUp .6s .35s both; }
+    .hero-actions { display: flex; gap: .75rem; align-items: center; animation: fadeUp .6s .45s both; }
+    .btn-fill { background: var(--coral); color: #fff; padding: .85rem 2rem; border-radius: 999px; font-size: .95rem; font-weight: 600; text-decoration: none; transition: transform .2s, background .2s; }
+    .btn-fill:hover { background: #c44a2b; transform: translateY(-1px); }
+    .btn-ghost { color: var(--ink); font-size: .9rem; font-weight: 500; text-decoration: none; padding: .85rem 1.25rem; transition: color .2s; }
+    .btn-ghost:hover { color: var(--green); }
+
+    .hero-right { background: var(--green-light); display: flex; align-items: center; justify-content: center; animation: fadeIn .8s .3s both; }
+    .hero-illustration { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 3rem; }
+    .hero-illustration svg { max-width: 360px; width: 100%; }
+
+    .logos-bar { padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 2.5rem; }
+    .logos-label { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); white-space: nowrap; }
+    .logos-list { display: flex; gap: 3rem; align-items: center; flex: 1; }
+    .logo-item { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700; color: var(--border); }
+
+    .features { padding: 6rem 2.5rem; }
+    .features-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+    .section-kicker { font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); margin-bottom: .6rem; }
+    .section-heading { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
+    .section-heading em { font-style: italic; font-weight: 300; }
+    .features-link { font-size: .875rem; font-weight: 600; color: var(--green); text-decoration: none; white-space: nowrap; }
+    .features-link:hover { text-decoration: underline; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: transform .25s, box-shadow .25s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
+    .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .card-icon.g { background: var(--green-light); }
+    .card-icon.y { background: #fdf3cc; }
+    .card-icon.c { background: #fde8e2; }
+    .card-title { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: .5rem; }
+    .card-body { font-size: .9rem; color: var(--mid); line-height: 1.7; }
+
+    .testimonial { margin: 0 2.5rem 6rem; background: var(--green); border-radius: 20px; padding: 4rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+    .testimonial-quote { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 300; font-style: italic; color: #fff; line-height: 1.4; }
+    .author-name { font-weight: 600; color: var(--yellow); font-size: .95rem; margin-bottom: .2rem; }
+    .author-role { font-size: .825rem; color: rgba(255,255,255,.6); }
+
+    .cta-section { padding: 6rem 2.5rem; text-align: center; border-top: 1px solid var(--border); }
+    .cta-section .section-heading { margin: .5rem auto 1.25rem; max-width: 560px; }
+    .cta-section p { color: var(--mid); margin-bottom: 2rem; }
+    .cta-row { display: flex; gap: .75rem; justify-content: center; align-items: center; }
+
+    footer { border-top: 1px solid var(--border); padding: 1.75rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: .825rem; color: var(--mid); }
+    .foot-links { display: flex; gap: 1.75rem; }
+    .foot-links a { font-size: .825rem; color: var(--mid); text-decoration: none; transition: color .2s; }
+    .foot-links a:hover { color: var(--ink); }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes popIn { from { opacity:0; transform:scale(.9); } to { opacity:1; transform:scale(1); } }
+
+    @media (max-width: 860px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 3.5rem 1.25rem; border-right: none; }
+      .hero-right { min-height: 260px; border-top: 1px solid var(--border); }
+      .features { padding: 4rem 1.25rem; }
+      .features-top { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .testimonial { margin: 0 1.25rem 4rem; grid-template-columns: 1fr; gap: 1.5rem; padding: 2.5rem; }
+      .cta-section { padding: 4rem 1.25rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="logo">🌱 <span>Sprout</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#blog">Blog</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Get started free</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="badge">✦ Now in public beta</div>
+      <h1 class="hero-title">Grow your audience <em>faster</em> than ever.</h1>
+      <p class="hero-body">Sprout helps creators and small businesses build engaged communities with smart tools, real analytics, and zero overwhelm.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-fill">Start for free →</a>
+        <a href="#" class="btn-ghost">See how it works</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-illustration">
+        <svg viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="320" height="280" rx="16" fill="white" stroke="#ddd8cc" stroke-width="1.5"/>
+          <rect x="20" y="20" width="320" height="48" rx="16" fill="#2d5a3d"/>
+          <rect x="20" y="52" width="320" height="16" fill="#2d5a3d"/>
+          <circle cx="48" cy="44" r="10" fill="white" fill-opacity="0.2"/>
+          <rect x="64" y="38" width="80" height="8" rx="4" fill="white" fill-opacity="0.5"/>
+          <rect x="280" y="38" width="40" height="8" rx="4" fill="#f0c843"/>
+          <rect x="36" y="88" width="90" height="60" rx="10" fill="#e8f0eb"/>
+          <rect x="44" y="98" width="30" height="6" rx="3" fill="#2d5a3d" fill-opacity="0.4"/>
+          <rect x="44" y="110" width="52" height="10" rx="5" fill="#2d5a3d"/>
+          <rect x="44" y="126" width="38" height="6" rx="3" fill="#2d5a3d" fill-opacity="0.3"/>
+          <rect x="136" y="88" width="90" height="60" rx="10" fill="#fdf3cc"/>
+          <rect x="144" y="98" width="30" height="6" rx="3" fill="#8a6f00" fill-opacity="0.4"/>
+          <rect x="144" y="110" width="52" height="10" rx="5" fill="#8a6f00"/>
+          <rect x="144" y="126" width="38" height="6" rx="3" fill="#8a6f00" fill-opacity="0.3"/>
+          <rect x="236" y="88" width="90" height="60" rx="10" fill="#fde8e2"/>
+          <rect x="244" y="98" width="30" height="6" rx="3" fill="#c44a2b" fill-opacity="0.4"/>
+          <rect x="244" y="110" width="52" height="10" rx="5" fill="#c44a2b"/>
+          <rect x="244" y="126" width="38" height="6" rx="3" fill="#c44a2b" fill-opacity="0.3"/>
+          <rect x="36" y="164" width="290" height="110" rx="10" fill="#f5f0e8"/>
+          <rect x="52" y="176" width="60" height="8" rx="4" fill="#1a1814" fill-opacity="0.2"/>
+          <rect x="52"  y="222" width="22" height="36" rx="4" fill="#2d5a3d" fill-opacity="0.3"/>
+          <rect x="84"  y="210" width="22" height="48" rx="4" fill="#2d5a3d" fill-opacity="0.5"/>
+          <rect x="116" y="200" width="22" height="58" rx="4" fill="#2d5a3d" fill-opacity="0.7"/>
+          <rect x="148" y="214" width="22" height="44" rx="4" fill="#2d5a3d" fill-opacity="0.5"/>
+          <rect x="180" y="196" width="22" height="62" rx="4" fill="#2d5a3d"/>
+          <rect x="212" y="208" width="22" height="50" rx="4" fill="#2d5a3d" fill-opacity="0.6"/>
+          <rect x="244" y="192" width="22" height="66" rx="4" fill="#e05c3a"/>
+          <rect x="276" y="204" width="22" height="54" rx="4" fill="#2d5a3d" fill-opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="logos-bar">
+    <span class="logos-label">Trusted by</span>
+    <div class="logos-list">
+      <span class="logo-item">Harlow</span>
+      <span class="logo-item">Fieldwork</span>
+      <span class="logo-item">Verdant</span>
+      <span class="logo-item">Nucleus</span>
+      <span class="logo-item">Driftwood</span>
+    </div>
+  </div>
+
+  <section class="features" id="features">
+    <div class="features-top">
+      <div>
+        <div class="section-kicker">Features</div>
+        <h2 class="section-heading">Everything you need<br>to <em>grow with confidence.</em></h2>
+      </div>
+      <a href="#" class="features-link">Explore all features →</a>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon g">📊</div>
+        <div class="card-title">Smart Analytics</div>
+        <p class="card-body">Track what actually matters — follower growth, engagement, and revenue — in one clean dashboard built for non-experts.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon y">✍️</div>
+        <div class="card-title">Content Scheduler</div>
+        <p class="card-body">Plan and publish across every platform from a single calendar. Drag, drop, and schedule with zero friction.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon c">🤝</div>
+        <div class="card-title">Community Tools</div>
+        <p class="card-body">Build a loyal audience with automated welcome flows, segmentation, and replies that feel genuinely human.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="testimonial">
+    <blockquote class="testimonial-quote">"Sprout took our newsletter from 800 subscribers to over 40,000 in under a year. I couldn't have done it without this tool."</blockquote>
+    <div class="testimonial-author">
+      <div class="author-name">Maya Thornton</div>
+      <div class="author-role">Creator, The Slow Morning</div>
+    </div>
+  </div>
+
+  <section class="cta-section">
+    <div class="section-kicker">Get started today</div>
+    <h2 class="section-heading">Your growth story<br><em>starts here.</em></h2>
+    <p>Free forever on the starter plan. No credit card needed.</p>
+    <div class="cta-row">
+      <a href="#" class="btn-fill">Create free account</a>
+      <a href="#" class="btn-ghost">Talk to sales →</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Sprout, Inc. All rights reserved.</p>
+    <div class="foot-links">
+      <a href="#">Product</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Twitter</a>
+    </div>
+  </footer>
+
+</body>
+</html>
